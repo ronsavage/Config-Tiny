@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-require 5.008001;
+use 5.008001;
 
 use ExtUtils::MakeMaker;
 
@@ -12,7 +12,7 @@ use ExtUtils::MakeMaker;
 
 my(%params) =
 (
-	($] ge '5.005') ?
+	("$]" >= '5.005') ?
 	(
 		AUTHOR   => 'Adam Kennedy <adamk@cpan.org>',
 		ABSTRACT => 'Read/Write .ini style files with as little code as possible',
@@ -38,28 +38,28 @@ my(%params) =
 	LICENSE      => 'perl',
 	PREREQ_PM    =>
 	{
-		'File::Spec' => 3.30,
-		'File::Temp' => 0.22,
+		'File::Spec' => '3.30',
+		'File::Temp' => '0.22',
 		'strict'     => 0,
 		'UNIVERSAL'  => 0,
 		'utf8'       => 0,
 	},
 	TEST_REQUIRES =>
 	{
-		'Test::More'	=> 1.001002,
-		'Test::Pod'		=> 1.51,
+		'Test::More'	=> '1.001002',
+		'Test::Pod'		=> '1.51',
 	},
 	VERSION_FROM => 'lib/Config/Tiny.pm',
 	INSTALLDIRS  => 'site',
 	EXE_FILES    => [],
 );
 
-if ( ($ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/) && ($ExtUtils::MakeMaker::VERSION > 6.30) )
+if (eval { ExtUtils::MakeMaker->VERSION('6.30') } )
 {
 	$params{LICENSE} = 'perl';
 }
 
-if ($ExtUtils::MakeMaker::VERSION ge '6.46')
+if (eval { ExtUtils::MakeMaker->VERSION('6.46') } )
 {
 	$params{META_MERGE} =
 	{
@@ -79,6 +79,11 @@ if ($ExtUtils::MakeMaker::VERSION ge '6.46')
 			},
 		},
 	};
+}
+
+if (eval { ExtUtils::MakeMaker->VERSION('6.48') } )
+{
+	$params{MIN_PERL_VERSION} = '5.008001';
 }
 
 WriteMakefile(%params);
